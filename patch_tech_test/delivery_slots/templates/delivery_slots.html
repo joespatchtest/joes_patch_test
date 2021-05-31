@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>Click on a slot to schedule a delivery</p>
+
+<p><span class="unavailable">XXX</span>=Unavailable</p>
+<p><span class="full">XXX</span>=Full</p>
+
+{% regroup slots by date as date_list %}
+
+{% for date in date_list %}
+    {% if forloop.counter0|divisibleby:"4" %}
+        {% if not forloop.first %}</table>{% endif %}
+        <div>&nbsp;</div>
+        <table class="four-days"><tr>
+    {% endif %}
+    <td>
+        <table>
+            <thead><tr><th>{{ date.grouper|date:'D d M Y' }}</th></tr></thead>
+            <tbody>
+            {% for slot in date.list %}
+                {% cycle 'dark' 'light' as rowcolor silent %}
+                <tr>
+                    {% if slot.is_full %}
+                        <td class="slot full">
+                            {{ slot.time_of_day }} ({{ slot.capacity }})
+                        </td>
+                    {% elif slot.unavailable %}
+                        <td class="slot unavailable">
+                            {{ slot.time_of_day }} ({{ slot.capacity }})
+                        </td>
+                    {% else %}
+                        <td class="slot {{ rowcolor }}">
+                            <a href="{% url 'schedule_delivery' slot.pk %}">
+                            {{ slot.time_of_day }} ({{ slot.capacity }})
+                            </a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            {% resetcycle %}
+        </tbody></table>
+    </td>
+{% endfor %}
+
+
+{% endblock %}

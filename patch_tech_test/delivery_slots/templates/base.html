@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Patch delivery slot tech test</title>
+        <style type="text/css">
+        body {
+            background-color: #fed;
+        }
+        table.four-days {
+            border: 1px solid #ca8;
+            width: 50em;
+            background-color: #faeaea;
+        }
+        table.four-days td {
+            width: 25%;
+        }
+
+        table table {
+            width: 100%;
+            border: 1px solid #ccc;
+        }
+
+        table table th {
+            background-color: #fee;
+        }
+
+        td.light {
+            background-color: #eee;
+        }
+
+        td.dark {
+            background-color: #ccc;
+        }
+
+        .full {
+            background-color: #fed;
+            color: #aaa;
+        }
+        .unavailable {
+            background-color: #c9e;
+            color: #ddd;
+        }
+        ul.messages li.info {
+            background-color: #fffaf8;
+        }
+        ul.messages li.error {
+            background-color: #ff8080;
+        }
+        </style>
+    </head>
+
+    <body>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <h2>Patch delivery slot tech test</h2>
+        {% block content %}{% endblock %}
+    </body>
+</html>
